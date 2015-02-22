@@ -1,8 +1,9 @@
 name: SimpleGamemodes
 main: de.themoep.SimpleGamemodes.SimpleGamemodes
-version: 0.1.6
+version: 0.1.7
 description: Simple plugin to provide permission based gamemode changing on serverjoine and world change. Also has some commands to change gamemodes.
 authors: [Phoenix616]
+website: https://github.com/Phoenix616/SimpleGamemodes
 commands:
    gamemode:
       aliases: [gm]
