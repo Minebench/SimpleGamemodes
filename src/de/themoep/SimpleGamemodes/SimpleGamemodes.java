@@ -204,7 +204,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                     sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + " mode!");
                 }
             } else {
-                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + "<player...> to run it from the console!");
+                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + " <player...> to run it from the console!");
             }
         } else if (cmd.getName().equalsIgnoreCase("gmsp") && sender.hasPermission("simplegamemodes.command.gamemode") && sender.hasPermission("simplegamemodes.gamemode.spectator")) {
             if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
@@ -239,7 +239,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                 if(sender instanceof Player)
                     sender.sendMessage(ChatColor.RED + "Your gamemode is " + ChatColor.YELLOW + ((Player) sender).getGameMode().toString());
                 else
-                    sender.sendMessage(ChatColor.RED + "This command can only be run by a player without arguments. To check the gamemode of other players use " + ChatColor.YELLOW + cmd.getName() + "<player...>");
+                    sender.sendMessage("This command can only be run by a player without arguments. Use " + cmd.getName() + "<player...> to run it from the console!");
             } else if(args.length > 0 && sender.hasPermission("simplegamemodes.command.checkgamemode.others")) {
                 for (String s : args) {
                     Player p = Bukkit.getPlayer(s);
