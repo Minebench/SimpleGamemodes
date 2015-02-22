@@ -3,8 +3,8 @@ Simple permission based gamemode management bukkit plugin.
 
 It features permission based auto gamemode on server join and world change. It also has some Essentials-like gamemode change commands (/gms etc.)
 
-Commands:
-------
+#### Commands:
+
     gamemode:
        aliases: [gm]
        description: Main gamemode change command
@@ -38,8 +38,7 @@ Commands:
        permission: simplegamemodes.command.checkgamemode
        permission-message: You don't have the permission <permission>
 
-Permissions:
-------
+#### Permissions:
     simplegamemodes.command.gamemode:
        description: Gives permission to use the gamemode command
        default: op
