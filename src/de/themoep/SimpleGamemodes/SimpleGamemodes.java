@@ -237,14 +237,14 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
         } else if (cmd.getName().equalsIgnoreCase("checkgamemode") && sender.hasPermission("simplegamemodes.command.checkgamemode")) {
             if(args.length == 0) {
                 if(sender instanceof Player)
-                    sender.sendMessage(ChatColor.RED + "Your gamemode is " + ChatColor.YELLOW + ((Player) sender).getGameMode().toString());
+                    sender.sendMessage(ChatColor.RED + "Your gamemode is " + ChatColor.YELLOW + humanizeEnum(((Player) sender).getGameMode().toString()));
                 else
                     sender.sendMessage("This command can only be run by a player without arguments. Use " + cmd.getName() + "<player...> to run it from the console!");
             } else if(args.length > 0 && sender.hasPermission("simplegamemodes.command.checkgamemode.others")) {
                 for (String s : args) {
                     Player p = Bukkit.getPlayer(s);
                     if (p != null && p.isOnline()) {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + p.getName() + ChatColor.RED + " is in " + ChatColor.YELLOW + p.getGameMode().toString() + ChatColor.RED + " mode!");
+                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + p.getName() + ChatColor.RED + " is in " + ChatColor.YELLOW + humanizeEnum(p.getGameMode().toString()) + ChatColor.RED + " mode!");
                     } else {
                         sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
                     }
@@ -258,4 +258,9 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
         return true;
     }
 
+    public static String humanizeEnum(String input) {
+        if (input.length() > 0) 
+            return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        else return input;
+    }
 }
