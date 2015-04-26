@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.themoep</groupId>
     <artifactId>SimpleGamemodes</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <name>SimpleGamemodes</name>
     <description>Simple plugin to provide permission based gamemode changing on serverjoin and world change. Also has some commands to change gamemodes.</description>
     <properties>
@@ -47,7 +47,7 @@
             </activation>
             <properties>
                 <buildNumber>${env.BUILD_NUMBER}</buildNumber>
-                <buildDescription>(build #${env.BUILD_NUMBER})</buildDescription>
+                <buildDescription>b#${env.BUILD_NUMBER}</buildDescription>
             </properties>
         </profile>
     </profiles>
