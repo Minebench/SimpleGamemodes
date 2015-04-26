@@ -51,19 +51,19 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                     if(p != null && p.isOnline()) {
                         if (p.hasPermission("simplegamemodes.gamemode.creative") && p.getGameMode() != GameMode.CREATIVE) {
                             p.setGameMode(GameMode.CREATIVE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on game join.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Creative on game join.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.survival") && p.getGameMode() != GameMode.SURVIVAL) {
                             p.setGameMode(GameMode.SURVIVAL);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on game join.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Survival on game join.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.adventure") && p.getGameMode() != GameMode.ADVENTURE) {
                             p.setGameMode(GameMode.ADVENTURE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on game join.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Adventure on game join.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.spectator") && p.getGameMode() != GameMode.SPECTATOR) {
                             p.setGameMode(GameMode.SPECTATOR);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on game join.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Spectator on game join.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
                         }
                     }
@@ -83,19 +83,19 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                     if(p != null && p.isOnline()) {
                         if (p.hasPermission("simplegamemodes.gamemode.creative") && p.getGameMode() != GameMode.CREATIVE) {
                             p.setGameMode(GameMode.CREATIVE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on world change.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Creative on world change.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.survival") && p.getGameMode() != GameMode.SURVIVAL) {
                             p.setGameMode(GameMode.SURVIVAL);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on world change.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Survival on world change.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.adventure") && p.getGameMode() != GameMode.ADVENTURE) {
                             p.setGameMode(GameMode.ADVENTURE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on world change.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Adventure on world change.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
                         } else if (p.hasPermission("simplegamemodes.gamemode.spectator") && p.getGameMode() != GameMode.SPECTATOR) {
                             p.setGameMode(GameMode.SPECTATOR);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to creative on world change.");
+                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Spectator on world change.");
                             p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
                         }
                     }
