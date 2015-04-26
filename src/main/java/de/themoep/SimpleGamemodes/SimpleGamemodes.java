@@ -32,9 +32,17 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExecutor {
+
+    /**
+     * Priorities of the different gamemodes
+     * Modes with a lower index overwrite the ones with a higher one
+     */
+    final static List<GameMode> GM_PRIO = Arrays.asList(new GameMode[]{GameMode.CREATIVE, GameMode.SURVIVAL, GameMode.ADVENTURE, GameMode.SPECTATOR});
 
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents(this, this);
@@ -49,22 +57,12 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                 public void run() {   
                     Player p = Bukkit.getPlayer(id);
                     if(p != null && p.isOnline()) {
-                        if (p.hasPermission("simplegamemodes.gamemode.creative") && p.getGameMode() != GameMode.CREATIVE) {
-                            p.setGameMode(GameMode.CREATIVE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Creative on game join.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.survival") && p.getGameMode() != GameMode.SURVIVAL) {
-                            p.setGameMode(GameMode.SURVIVAL);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Survival on game join.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.adventure") && p.getGameMode() != GameMode.ADVENTURE) {
-                            p.setGameMode(GameMode.ADVENTURE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Adventure on game join.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.spectator") && p.getGameMode() != GameMode.SPECTATOR) {
-                            p.setGameMode(GameMode.SPECTATOR);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Spectator on game join.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
+                        for(GameMode gm : GM_PRIO) {
+                            if(p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase()) && (GM_PRIO.indexOf(gm) < GM_PRIO.indexOf(p.getGameMode()))) {
+                                p.setGameMode(gm);
+                                Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on game join.");
+                                p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                            }
                         }
                     }
                 }
@@ -81,22 +79,12 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                 public void run() {
                     Player p = Bukkit.getPlayer(id);
                     if(p != null && p.isOnline()) {
-                        if (p.hasPermission("simplegamemodes.gamemode.creative") && p.getGameMode() != GameMode.CREATIVE) {
-                            p.setGameMode(GameMode.CREATIVE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Creative on world change.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.survival") && p.getGameMode() != GameMode.SURVIVAL) {
-                            p.setGameMode(GameMode.SURVIVAL);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Survival on world change.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.adventure") && p.getGameMode() != GameMode.ADVENTURE) {
-                            p.setGameMode(GameMode.ADVENTURE);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Adventure on world change.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
-                        } else if (p.hasPermission("simplegamemodes.gamemode.spectator") && p.getGameMode() != GameMode.SPECTATOR) {
-                            p.setGameMode(GameMode.SPECTATOR);
-                            Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to Spectator on world change.");
-                            p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
+                        for(GameMode gm : GM_PRIO) {
+                            if(p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase()) && (GM_PRIO.indexOf(gm) < GM_PRIO.indexOf(p.getGameMode()))) {
+                                p.setGameMode(gm);
+                                Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on world change.");
+                                p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                            }
                         }
                     }
                 }
@@ -118,133 +106,24 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                     onCommand(sender, this.getCommand("gma"), cmd.getLabel(), newargs);
                 } else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("sp") || args[0].equalsIgnoreCase("3")) {
                     onCommand(sender, this.getCommand("gmsp"), cmd.getLabel(), newargs);
-                } else
+                } else {
                     return false;
-            } else
+                }
+            } else {
                 return false;
-        } else if (cmd.getName().equalsIgnoreCase("gmc") && sender.hasPermission("simplegamemodes.command.gamemode") && sender.hasPermission("simplegamemodes.gamemode.creative")) {
-            if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
-                for (String s : args) {
-                    Player p = Bukkit.getPlayer(s);
-                    if (p != null && p.isOnline()) {
-                        if (p.getGameMode() != GameMode.CREATIVE) {
-                            p.setGameMode(GameMode.CREATIVE);
-                            this.getLogger().info(sender.getName() + " set " + p.getName() + "'s gamemode to Creative.");
-                            p.sendMessage(ChatColor.YELLOW + sender.getName() + ChatColor.RED + " set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
-                            sender.sendMessage(ChatColor.RED + "Set gamemode of " + ChatColor.YELLOW + s + ChatColor.RED + " to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " is already in Creative mode!");
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
-                    }
-                }
-            } else if (sender instanceof Player) {
-                if (((Player) sender).getGameMode() != GameMode.CREATIVE) {
-                    ((Player) sender).setGameMode(GameMode.CREATIVE);
-                    this.getLogger().info(sender.getName() + " set own gamemode to creative.");
-                    sender.sendMessage(ChatColor.RED + "Set your gamemode to " + ChatColor.YELLOW + "Creative" + ChatColor.RED + "!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + "Creative" + ChatColor.RED + " mode!");
-                }
-            } else {
-                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + "<player...> to run it from the console!");
             }
-        } else if (cmd.getName().equalsIgnoreCase("gms") && sender.hasPermission("simplegamemodes.command.gamemode") && sender.hasPermission("simplegamemodes.gamemode.survival")) {
-            if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
-                for (String s : args) {
-                    Player p = Bukkit.getPlayer(s);
-                    if (p != null && p.isOnline()) {
-                        if (p.getGameMode() != GameMode.SURVIVAL) {
-                            p.setGameMode(GameMode.SURVIVAL);
-                            this.getLogger().info(sender.getName() + " set " + p.getName() + "'s gamemode to Survival.");
-                            p.sendMessage(ChatColor.YELLOW + sender.getName() + ChatColor.RED + " set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
-                            sender.sendMessage(ChatColor.RED + "Set gamemode of " + ChatColor.YELLOW + s + ChatColor.RED + " to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " is already in Survival mode!");
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
-                    }
-                }
-            } else if (sender instanceof Player) {
-                if (((Player) sender).getGameMode() != GameMode.SURVIVAL) {
-                    ((Player) sender).setGameMode(GameMode.SURVIVAL);
-                    this.getLogger().info(sender.getName() + " set own gamemode to Survival.");
-                    sender.sendMessage(ChatColor.RED + "Set your gamemode to " + ChatColor.YELLOW + "Survival" + ChatColor.RED + "!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + "Survival" + ChatColor.RED + " mode!");
-                }
-            } else {
-                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + "<player...> to run it from the console!");
-            }
-        } else if (cmd.getName().equalsIgnoreCase("gma") && sender.hasPermission("simplegamemodes.command.gamemode") && sender.hasPermission("simplegamemodes.gamemode.adventure")) {
-            if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
-                for (String s : args) {
-                    Player p = Bukkit.getPlayer(s);
-                    if (p != null && p.isOnline()) {
-                        if (p.getGameMode() != GameMode.ADVENTURE) {
-                            p.setGameMode(GameMode.ADVENTURE);
-                            this.getLogger().info(sender.getName() + " set " + p.getName() + "'s gamemode to Adventure.");
-                            p.sendMessage(ChatColor.YELLOW + sender.getName() + ChatColor.RED + " set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
-                            sender.sendMessage(ChatColor.RED + "Set gamemode of " + ChatColor.YELLOW + s + ChatColor.RED + " to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " is already in Adventure mode!");
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
-                    }
-                }
-            } else if (sender instanceof Player) {
-                if (((Player) sender).getGameMode() != GameMode.ADVENTURE) {
-                    ((Player) sender).setGameMode(GameMode.ADVENTURE);
-                    this.getLogger().info(sender.getName() + " set own gamemode to Adventure.");
-                    sender.sendMessage(ChatColor.RED + "Set your gamemode to " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + "!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + "Adventure" + ChatColor.RED + " mode!");
-                }
-            } else {
-                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + " <player...> to run it from the console!");
-            }
-        } else if (cmd.getName().equalsIgnoreCase("gmsp") && sender.hasPermission("simplegamemodes.command.gamemode") && sender.hasPermission("simplegamemodes.gamemode.spectator")) {
-            if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
-                for (String s : args) {
-                    Player p = Bukkit.getPlayer(s);
-                    if (p != null && p.isOnline()) {
-                        if (p.getGameMode() != GameMode.SPECTATOR) {
-                            p.setGameMode(GameMode.SPECTATOR);
-                            this.getLogger().info(sender.getName() + " set " + p.getName() + "'s gamemode to Spectator.");
-                            p.sendMessage(ChatColor.YELLOW + sender.getName() + ChatColor.RED + " set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
-                            sender.sendMessage(ChatColor.RED + "Set gamemode of " + ChatColor.YELLOW + s + ChatColor.RED + " to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " is already in Spectator mode!");
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
-                    }
-                }
-            } else if (sender instanceof Player) {
-                if (((Player) sender).getGameMode() != GameMode.SPECTATOR) {
-                    ((Player) sender).setGameMode(GameMode.SPECTATOR);
-                    this.getLogger().info(sender.getName() + " set own gamemode to Spectator.");
-                    sender.sendMessage(ChatColor.RED + "Set your gamemode to " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + "!");
-                } else {
-                    sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + "Spectator" + ChatColor.RED + " mode!");
-                }
-            } else {
-                sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + "<player...> to run it from the console!");
-            }
+            
         } else if (cmd.getName().equalsIgnoreCase("checkgamemode") && sender.hasPermission("simplegamemodes.command.checkgamemode")) {
             if(args.length == 0) {
                 if(sender instanceof Player)
-                    sender.sendMessage(ChatColor.RED + "Your gamemode is " + ChatColor.YELLOW + humanizeEnum(((Player) sender).getGameMode().toString()));
+                    sender.sendMessage(ChatColor.RED + "Your gamemode is " + ChatColor.YELLOW + humanizeEnum(((Player) sender).getGameMode()));
                 else
                     sender.sendMessage("This command can only be run by a player without arguments. Use " + cmd.getName() + "<player...> to run it from the console!");
             } else if(args.length > 0 && sender.hasPermission("simplegamemodes.command.checkgamemode.others")) {
                 for (String s : args) {
                     Player p = Bukkit.getPlayer(s);
                     if (p != null && p.isOnline()) {
-                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + p.getName() + ChatColor.RED + " is in " + ChatColor.YELLOW + humanizeEnum(p.getGameMode().toString()) + ChatColor.RED + " mode!");
+                        sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + p.getName() + ChatColor.RED + " is in " + ChatColor.YELLOW + humanizeEnum(p.getGameMode()) + ChatColor.RED + " mode!");
                     } else {
                         sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
                     }
@@ -252,15 +131,64 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
             } else {
                 sender.sendMessage("You don't have permission to check the gamemode of other players!");
             }
+            
+        } else if (sender.hasPermission("simplegamemodes.command.gamemode")) {
+            
+            GameMode gm;
+            if(cmd.getName().equalsIgnoreCase("gmc")) {
+                gm = GameMode.CREATIVE;
+            } else if(cmd.getName().equalsIgnoreCase("gms")) {
+                gm = GameMode.SURVIVAL;
+            } else if(cmd.getName().equalsIgnoreCase("gma")) {
+                gm = GameMode.ADVENTURE;
+            } else if(cmd.getName().equalsIgnoreCase("gmsp")) {
+                gm = GameMode.SPECTATOR;
+            } else {
+                return false;
+            }
+            
+            if(sender.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase())) {
+                if (args.length > 0 && sender.hasPermission("simplegamemodes.command.gamemode.others")) {
+                    for (String s : args) {
+                        Player p = Bukkit.getPlayer(s);
+                        if (p != null && p.isOnline()) {
+                            if (p.getGameMode() != gm) {
+                                p.setGameMode(gm);
+                                getLogger().info(sender.getName() + " set " + p.getName() + "'s gamemode to " + gm.toString());
+                                p.sendMessage(ChatColor.YELLOW + sender.getName() + ChatColor.RED + " set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                                sender.sendMessage(ChatColor.RED + "Set gamemode of " + ChatColor.YELLOW + s + ChatColor.RED + " to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " is already in " + humanizeEnum(gm) + " mode!");
+                            }
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + s + ChatColor.RED + " was not found online!");
+                        }
+                    }
+                } else if (sender instanceof Player) {
+                    if (((Player) sender).getGameMode() != gm) {
+                        ((Player) sender).setGameMode(gm);
+                        getLogger().info(sender.getName() + " set own gamemode to " + gm.toString());
+                        sender.sendMessage(ChatColor.RED + "Set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You are already in " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + " mode!");
+                    }
+                } else {
+                    sender.sendMessage("This command can only be run by a player without arguments! Use " + cmd.getName() + "<player...> to run it from the console!");
+                }
+            } else {
+                sender.sendMessage("You don't have permission to access the gamemode " + humanizeEnum(gm) + "!");
+            }
+            
         } else {
             sender.sendMessage("You don't have permission to run this command!");
         }
         return true;
     }
 
-    public static String humanizeEnum(String input) {
-        if (input.length() > 0) 
-            return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
-        else return input;
+    public static String humanizeEnum(Enum e) {
+        String name = e.toString();
+        if (name.length() > 0)
+            return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        else return name;
     }
 }
