@@ -57,11 +57,13 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                 public void run() {   
                     Player p = Bukkit.getPlayer(id);
                     if(p != null && p.isOnline()) {
-                        for(GameMode gm : GM_PRIO) {
-                            if(p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase()) && (GM_PRIO.indexOf(gm) < GM_PRIO.indexOf(p.getGameMode()))) {
-                                p.setGameMode(gm);
-                                Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on game join.");
-                                p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                        if(!p.hasPermission("simplegamemodes.gamemode." + p.getGameMode().toString().toLowerCase())) {
+                            for (GameMode gm : GM_PRIO) {
+                                if (p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase())) {
+                                    p.setGameMode(gm);
+                                    Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on game join.");
+                                    p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                                }
                             }
                         }
                     }
@@ -79,11 +81,13 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                 public void run() {
                     Player p = Bukkit.getPlayer(id);
                     if(p != null && p.isOnline()) {
-                        for(GameMode gm : GM_PRIO) {
-                            if(p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase()) && (GM_PRIO.indexOf(gm) < GM_PRIO.indexOf(p.getGameMode()))) {
-                                p.setGameMode(gm);
-                                Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on world change.");
-                                p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                        if(!p.hasPermission("simplegamemodes.gamemode." + p.getGameMode().toString().toLowerCase())) {
+                            for (GameMode gm : GM_PRIO) {
+                                if (p.hasPermission("simplegamemodes.gamemode." + gm.toString().toLowerCase())) {
+                                    p.setGameMode(gm);
+                                    Bukkit.getServer().getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on world change.");
+                                    p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                                }
                             }
                         }
                     }
