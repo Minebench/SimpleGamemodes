@@ -42,7 +42,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
     
     @EventHandler
      public void onGameJoin(PlayerJoinEvent event) {
-        if(!event.getPlayer().hasPermission(" simplegamemodes.autogamemodeexempt")) {
+        if(!event.getPlayer().hasPermission("simplegamemodes.autogamemodeexempt")) {
             final UUID id = event.getPlayer().getUniqueId();
             Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
                 @Override
@@ -74,7 +74,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
 
     @EventHandler
     public void onGameJoin(PlayerChangedWorldEvent event) {
-        if(!event.getPlayer().hasPermission(" simplegamemodes.autogamemodeexempt")) {
+        if(!event.getPlayer().hasPermission("simplegamemodes.autogamemodeexempt")) {
             final UUID id = event.getPlayer().getUniqueId();
             Bukkit.getScheduler().scheduleSyncDelayedTask(this, new BukkitRunnable() {
                 @Override
