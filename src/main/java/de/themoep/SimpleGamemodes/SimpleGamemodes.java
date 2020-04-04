@@ -59,6 +59,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                                 p.setGameMode(gm);
                                 getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on game join.");
                                 p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                                break;
                             }
                         }
                     }
@@ -80,6 +81,7 @@ public class SimpleGamemodes extends JavaPlugin implements Listener, CommandExec
                                 p.setGameMode(gm);
                                 getLogger().info("Automatically set gamemode of " + p.getName() + " to " + gm.toString() + " on world change.");
                                 p.sendMessage(ChatColor.RED + "Automatically set your gamemode to " + ChatColor.YELLOW + humanizeEnum(gm) + ChatColor.RED + "!");
+                                break;
                             }
                         }
                     }
